@@ -21,10 +21,10 @@ namespace InterviewProject.Controllers
             _weatherRepository = weatherRepository;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<WeatherForecast>> Get(string id)
+        [HttpGet("{id}")]
+        public async Task<IEnumerable<WeatherForecast>> Get(int id)
         {
-            return await _weatherRepository.GetById(id);
+            return await _weatherRepository.GetById(id.ToString());
         }
     }
 }

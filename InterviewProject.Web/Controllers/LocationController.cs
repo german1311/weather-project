@@ -21,7 +21,7 @@ namespace InterviewProject.Controllers
             _locationRepository = locationRepository;
         }
 
-        [HttpGet]
+        [HttpGet("{name}")]
         public async Task<IEnumerable<Location>> Get(string name)
         {
             return await _locationRepository.SearchByName(name);
