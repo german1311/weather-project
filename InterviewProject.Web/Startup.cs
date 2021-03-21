@@ -1,4 +1,6 @@
 using System.IO;
+using InterviewProject.Interfaces;
+using InterviewProject.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,9 @@ namespace InterviewProject
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddScoped<ILocationRepository, MetaweatherLocationRepository>();
+            services.AddScoped<IWeatherRepository, MetaweatherRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
