@@ -1,10 +1,10 @@
-export const weatherApi = async (locationId) => {
+export const getWeathers = async (locationId) => {
   const response = await fetch(`/weatherforecast/${locationId}`);
   const data = await response.json();
   return data;
 };
 
-export const locationApi = async (name) => {
+export const getLocation = async (name) => {
   const response = await fetch(`/location/${name}`);
   const data = await response.json();
   return data;

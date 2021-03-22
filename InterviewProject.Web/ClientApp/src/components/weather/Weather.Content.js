@@ -1,6 +1,9 @@
 import React from "react";
-
-export default function WeatherContent({forecasts}) {
+const formatDates = (date) => {
+  const d = new Date(date);
+  return d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+};
+export default function WeatherContent({ forecasts }) {
   return (
     <table className="table table-striped" aria-labelledby="tabelLabel">
       <thead>
@@ -14,7 +17,7 @@ export default function WeatherContent({forecasts}) {
       <tbody>
         {forecasts.map((forecast) => (
           <tr key={forecast.date}>
-            <td>{forecast.date}</td>
+            <td>{formatDates(forecast.date)}</td>
             <td>{forecast.temperatureC}</td>
             <td>{forecast.temperatureF}</td>
             <td>{forecast.summary}</td>

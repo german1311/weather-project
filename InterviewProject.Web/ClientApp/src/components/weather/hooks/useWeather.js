@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { weatherApi } from "../../../providers/api";
+import { getWeathers } from "../../../providers/api";
 
 export default function useWeather() {
   const [forecasts, setForecasts] = useState([]);
@@ -7,7 +7,7 @@ export default function useWeather() {
 
   const onSearch = async (location) => {
     setIsLoading(true);
-    const response = await weatherApi(location);
+    const response = await getWeathers(location);
     setForecasts(response);
     setIsLoading(false);
   };

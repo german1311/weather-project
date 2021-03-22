@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { locationApi } from "../../../providers/api";
+import { getLocation } from "../../../providers/api";
 
 export default function useLocation() {
     
@@ -8,7 +8,7 @@ export default function useLocation() {
 
   const onSearch = async (location) => {
     setIsLoading(true);
-    const response = await locationApi(location);
+    const response = await getLocation(location);
     setLocations(response);
     setIsLoading(false);
   };
