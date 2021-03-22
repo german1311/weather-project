@@ -16,17 +16,23 @@ export default function WeatherSearBar({ onSelect }) {
   return (
     <Autocomplete
       id="combo-box-demo"
-      value={selectedKey}
+      // value={selectedKey}
       onChange={(event, newValue) => {
+        //todo: add debounce, lodash maybe?
         handleSearch(newValue);
       }}
+      loading={isLoading}
       options={locations}
-      getOptionLabel={(option) => option.name}
-      style={{ width: 300 }}
+      getOptionLabel={(option) => {
+        if (typeof option === "string") return option;
+
+        return option.name;
+      }}      
+      style={{ width: 300, paddingBottom: 10 }}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Combo box"
+          label="Location Name"
           variant="outlined"
           onChange={(e) => onSearch(e.target.value)}
         />
