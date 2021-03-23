@@ -24,7 +24,16 @@ namespace InterviewProject.Controllers
         [HttpGet("{name}")]
         public async Task<IEnumerable<Location>> Get(string name)
         {
-            return await _locationRepository.SearchByName(name);
+            try
+            {
+                return await _locationRepository.SearchByName(name);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Errog getting locations");
+                throw;
+            }
+            
         }
     }
 }

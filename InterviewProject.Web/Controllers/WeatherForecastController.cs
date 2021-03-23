@@ -22,9 +22,18 @@ namespace InterviewProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IEnumerable<WeatherForecast>> Get(int id)
+        public async Task<IEnumerable<WeatherForecast>> Get(string id)
         {
-            return await _weatherRepository.GetById(id.ToString());
+            try
+            {
+                return await _weatherRepository.GetById(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Errog getting weathers");
+                throw;
+            }
+            
         }
     }
 }
