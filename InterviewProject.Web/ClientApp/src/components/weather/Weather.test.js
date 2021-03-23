@@ -6,14 +6,7 @@ import * as apiServiceMock from "../../providers/api";
 jest.mock("../../providers/api");
 
 describe("Weather component", () => {
-  it("should render form correctly", () => {
-    const { getByLabelText } = render(<Weather />);
-    const locationInput = getByLabelText(/Location Name/i);
-
-    expect(locationInput).toBeInTheDocument();
-  });
-
-  it("should make an api call to get weather", async () => {
+  beforeEach(() => {
     apiServiceMock.getLocation.mockResolvedValueOnce([
       { id: "01", name: "Lima" },
     ]);
@@ -25,17 +18,42 @@ describe("Weather component", () => {
         summary: "Sunny",
       },
     ]);
+  });
 
+  it("should render form correctly", () => {
+    const { getByLabelText } = render(<Weather />);
+    const locationInput = getByLabelText(/Location Name/i);
+
+    expect(locationInput).toBeInTheDocument();
+  });
+
+  it("should make an api call to get weather", async () => {
     await act(async () => {
       const { container, getByText } = render(<Weather />);
       const inputText = container.querySelector("#combo-box-demo");
       fireEvent.change(inputText, { target: { value: "lim" } });
-
       const resultOption = await waitFor(() => getByText(/Lima/i));
       fireEvent.click(resultOption);
 
-      const resultListItem = await waitFor(() => getByText(/Sunny/i));
-      expect(resultListItem).toBeInTheDocument();
+      expect(apiServiceMock.getWeathers).toHaveBeenCalledTimes(1);
+      expect(apiServiceMock.getWeathers).toHaveBeenCalledWith("01");
+    });
+  });
+
+  it("should show rows results properly", async () => {
+    await act(async () => {
+      const { container, getByText } = render(<Weather />);
+      const inputText = container.querySelector("#combo-box-demo");
+      fireEvent.change(inputText, { target: { value: "lim" } });
+      const resultOption = await waitFor(() => getByText(/Lima/i));
+      fireEvent.click(resultOption);
+
+      const resultListTemperatureC = await waitFor(() => getByText(/15/i));
+      const resultListTemperatuceF = getByText(/10/i);
+      const resultListSummary = getByText(/Sunny/i);
+      expect(resultListTemperatureC).toBeInTheDocument();
+      expect(resultListTemperatuceF).toBeInTheDocument();
+      expect(resultListSummary).toBeInTheDocument();
     });
   });
 });
