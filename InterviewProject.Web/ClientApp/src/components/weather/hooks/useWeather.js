@@ -5,9 +5,14 @@ export default function useWeather() {
   const [forecasts, setForecasts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSearch = async (location) => {
+  const onSearch = async (locationId) => {
+    if (!locationId) {
+      setForecasts([]);
+      return;
+    }
+
     setIsLoading(true);
-    const response = await getWeathers(location);
+    const response = await getWeathers(locationId);
     setForecasts(response);
     setIsLoading(false);
   };
